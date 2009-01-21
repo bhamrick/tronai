@@ -1,4 +1,4 @@
-CXXFLAGS=-O2 -g
+CXXFLAGS=-O2 -g -I.
 LDFLAGS=-lncurses -g
 
 all: referee random
