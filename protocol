@@ -1,0 +1,16 @@
+Coordinate system:
+
+      y+
+ N    |
+W E   |
+ S  (0,0)--x+
+
+The format for the players:
+OUTPUT: your name
+INPUT one string: your opponent's name
+INPUT two integers: width and height of the playing field
+INPUT four integers: your location (x,y), your opponent's location (x,y)
+for each turn:
+	OUTPUT your choice of direction (NESW)
+	INPUT your opponent's choice of direction
+		the input will be O if you won and X if you lost and T if it's a draw
