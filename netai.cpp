@@ -25,8 +25,8 @@ int main() {
 	}
 	scanf("%d %d %d %d",&x1,&y1,&x2,&y2);
 	board[x1][y1] = board[x2][y2] = 1;
-	int layers = 3;
-	int nl[3]={w*h,(int)(5+w*h*log(w*h)),1};
+	int layers = 4;
+	int nl[4]={w*h,(int)(5+w*h*log(w*h)),(int)(1.5*w*h*log(w*h)),1};
 	char working_name[30];
 	sprintf(working_name,"%s%d%d.wk",opp,w,h);
 	net n(layers,nl);
@@ -47,6 +47,7 @@ int main() {
 				}
 			}
 			input[x1*h+y1+1]=1;
+			input[x2*h+y2] = 0.25;
 			n.feed_forward(input);
 			delete[] input;
 			nv = n.output();
@@ -63,6 +64,7 @@ int main() {
 				}
 			}
 			input[(x1+1)*h+y1]=1;
+			input[x2*h+y2] = 0.25;
 			n.feed_forward(input);
 			delete[] input;
 			ev = n.output();
@@ -79,6 +81,7 @@ int main() {
 				}
 			}
 			input[x1*h+y1-1]=1;
+			input[x2*h+y2] = 0.25;
 			n.feed_forward(input);
 			delete[] input;
 			sv = n.output();
@@ -95,6 +98,7 @@ int main() {
 				}
 			}
 			input[(x1-1)*h+y1]=1;
+			input[x2*h+y2] = 0.25;
 			n.feed_forward(input);
 			delete[] input;
 			wv = n.output();
@@ -137,6 +141,8 @@ int main() {
 				input[i*h+j]=(double)(int)board[i][j];
 			}
 		}
+		input[x1*h+y1] = 1;
+		input[x2*h+y2] = 0.25;
 		n.feed_forward(input);
 		delete[] input;
 		n.back_propagate();
