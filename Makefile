@@ -1,7 +1,7 @@
 CXXFLAGS=-O2 -g -I.
 LDFLAGS=-lncurses -g
 
-all: referee random
+all: referee random netai
 
 referee: referee.cpp
 	g++ $(CXXFLAGS) -c -o referee.o referee.cpp
@@ -13,5 +13,16 @@ random: random.cpp
 	g++ $(LDFLAGS) -o random random.o
 	rm random.o
 
+neuron: neuron.cpp neuron.h
+	g++ $(CXXFLAGS) -c -o neuron.o neuron.cpp
+
+net: net.cpp net.h
+	g++ $(CXXFLAGS) -c -o net.o net.cpp
+
+netai: neuron net netai.cpp
+	g++ $(CXXFLAGS) -c -o netai.o netai.cpp
+	g++ $(LDFLAGS) -o netai neuron.o net.o netai.o
+	
+
 clean:
-	rm referee random
+	rm referee random *.o netai

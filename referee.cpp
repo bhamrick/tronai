@@ -67,20 +67,17 @@ int main(int argc, char** argv) {
 		readline(stdout1[0],name1,20);
 		readline(stdout2[0],name2,20);
 		printf("%s vs %s\n",name1,name2);
-		printf("aBLARGH\n");
 		write(stdin1[1],name2,strlen(name2));
 		write(stdin2[1],name1,strlen(name1));
 		write(stdin1[1],"\n",1);
 		write(stdin2[1],"\n",1);
 		char** dims = new char*;
 		asprintf(dims,"%d %d\n",w,h);
-		printf("aBLARGH %s\n",*dims);
 		write(stdin1[1],*dims,strlen(*dims));
 		write(stdin2[1],*dims,strlen(*dims));
 		free(*dims);
 		char** loc1 = new char*, **loc2 = new char*;
 		bool** board;
-		printf("aBLARGH\n");
 		int x1=w/4, y1=h/2, x2=3*w/4, y2=h/2;
 		asprintf(loc1,"%d %d %d %d\n",w/4,h/2,3*w/4,h/2);
 		asprintf(loc2,"%d %d %d %d\n",3*w/4,h/2,w/4,h/2);
@@ -88,7 +85,6 @@ int main(int argc, char** argv) {
 		write(stdin2[1],*loc2,strlen(*loc2));
 		free(*loc1);
 		free(*loc2);
-		printf("aBLARGH");
 
 		board = new bool*[w];
 		for(int i = 0; i<w; i++) {

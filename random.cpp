@@ -15,7 +15,6 @@ int main() {
 	int w, h, x1, x2, y1, y2;
 	bool** board;
 	scanf("%d%d",&w,&h);
-	fprintf(stderr,"%d %d\n",w,h);
 	board = new bool*[w];
 	for(int i = 0; i<w; i++) {
 		board[i] = new bool[h];

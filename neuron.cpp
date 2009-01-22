@@ -29,6 +29,6 @@ void neuron::feed_forward() {
 
 neuron::neuron() {
 	value = 0;
-	bias = (double)rand()/RAND_MAX;
+	bias = (double)rand()/RAND_MAX - 0.5;
 	deriv = 0;
 }
