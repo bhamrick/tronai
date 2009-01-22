@@ -1,7 +1,7 @@
 CXXFLAGS=-O2 -g -I.
 LDFLAGS=-lncurses -g
 
-all: referee random netai
+all: referee random netai makeplot
 
 referee: referee.cpp
 	g++ $(CXXFLAGS) -c -o referee.o referee.cpp
@@ -22,7 +22,10 @@ net: net.cpp net.h
 netai: neuron net netai.cpp
 	g++ $(CXXFLAGS) -c -o netai.o netai.cpp
 	g++ $(LDFLAGS) -o netai neuron.o net.o netai.o
-	
+
+makeplot: makeplot.cpp
+	g++ $(CXXFLAGS) -c -o makeplot.o makeplot.cpp
+	g++ $(LDFLAGS) -o makeplot makeplot.o
 
 clean:
 	rm referee random *.o netai
