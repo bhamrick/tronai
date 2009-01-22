@@ -25,8 +25,8 @@ int main() {
 	}
 	scanf("%d %d %d %d",&x1,&y1,&x2,&y2);
 	board[x1][y1] = board[x2][y2] = 1;
-	int layers = 4;
-	int nl[4]={w*h,(int)(5+w*h*log(w*h)),(int)(1.5*w*h*log(w*h)),1};
+	int layers = 3;
+	int nl[3]={w*h,(int)(5+w*h*log(w*h)),1};
 	char working_name[30];
 	sprintf(working_name,"%s%d%d.wk",opp,w,h);
 	net n(layers,nl);
