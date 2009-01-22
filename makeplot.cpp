@@ -15,12 +15,13 @@ int main(int argc, char** argv) {
 	int games=0;
 	double wins = 0;
 	for(int i = 0; i<100; i++) {
-		fscanf(fin,"%s",results);
 		games++;
-		if(results[0]=='0') wins+=1.0;
+		if(results[0]=='O') wins+=1.0;
 		else if(results[0]=='T') wins+=0.5;
+		fscanf(fin,"%s",results);
 	}
 	wrate = wins/games;
+	printf("%lf %d %lf\n",wins,games,wrate);
 	while(r!=EOF) {
 		games++;
 		wrate *= 0.99;
