@@ -26,8 +26,15 @@ int main() {
 	scanf("%d %d %d %d",&x1,&y1,&x2,&y2);
 	board[x1][y1] = board[x2][y2] = 1;
 	int layers = 3;
-	int nl[3]={w*h,(int)(w*h*log(w*h)),1};
-	net n(layers, nl);
+	int nl[3]={w*h,(int)(5+w*h*log(w*h)),1};
+	char working_name[30];
+	sprintf(working_name,"%s%d%d.wk",opp,w,h);
+	net n(layers,nl);
+	FILE *fin = fopen(working_name,"r");
+	if(fin != NULL) {
+		fclose(fin);
+		n = net(working_name);
+	}
 	while(1) {
 		double * input;
 		double nv, ev, sv, wv;
@@ -36,9 +43,10 @@ int main() {
 			board[x1][y1+1]=1;
 			for(int i = 0; i<w; i++) {
 				for(int j = 0; j<h; j++) {
-					input[i*h+j]=(double)(int)board[i][j];
+					input[i*h+j]=0.5*(double)(int)board[i][j];
 				}
 			}
+			input[x1*h+y1+1]=1;
 			n.feed_forward(input);
 			delete[] input;
 			nv = n.output();
@@ -51,9 +59,10 @@ int main() {
 			board[x1+1][y1]=1;
 			for(int i = 0; i<w; i++) {
 				for(int j = 0; j<h; j++) {
-					input[i*h+j]=(double)(int)board[i][j];
+					input[i*h+j]=0.5*(double)(int)board[i][j];
 				}
 			}
+			input[(x1+1)*h+y1]=1;
 			n.feed_forward(input);
 			delete[] input;
 			ev = n.output();
@@ -66,9 +75,10 @@ int main() {
 			board[x1][y1-1]=1;
 			for(int i = 0; i<w; i++) {
 				for(int j = 0; j<h; j++) {
-					input[i*h+j]=(double)(int)board[i][j];
+					input[i*h+j]=0.5*(double)(int)board[i][j];
 				}
 			}
+			input[x1*h+y1-1]=1;
 			n.feed_forward(input);
 			delete[] input;
 			sv = n.output();
@@ -81,9 +91,10 @@ int main() {
 			board[x1-1][y1]=1;
 			for(int i = 0; i<w; i++) {
 				for(int j = 0; j<h; j++) {
-					input[i*h+j]=(double)(int)board[i][j];
+					input[i*h+j]=0.5*(double)(int)board[i][j];
 				}
 			}
+			input[(x1-1)*h+y1]=1;
 			n.feed_forward(input);
 			delete[] input;
 			wv = n.output();
@@ -120,11 +131,30 @@ int main() {
 			x1--;
 			board[x1][y1]=1;
 		}
+		input = new double[w*h];
+		for(int i = 0; i<w; i++) {
+			for(int j = 0; j<h; j++) {
+				input[i*h+j]=(double)(int)board[i][j];
+			}
+		}
+		n.feed_forward(input);
+		delete[] input;
+		n.back_propagate();
 		printf("%c\n",bestmove);
 		fflush(stdout);
 		char oppm[5];
 		scanf("%s",oppm);
-		if(!strcmp(oppm,"O") || !strcmp(oppm,"X") || !strcmp(oppm,"T")) return 0;
+		if(!strcmp(oppm,"O") || !strcmp(oppm,"X") || !strcmp(oppm,"T")) {
+			if(!strcmp(oppm,"O")) {
+				n.apply_changes(true);
+			} else {
+				n.apply_changes(false);
+			}
+			n.write_to_file(working_name);
+			FILE * flog = fopen("netai.log","a");
+			fprintf(flog,"%s\n",oppm);
+			return 0;
+		}
 		if(!strcmp(oppm,"N")) {
 			y2++;
 		} else if(!strcmp(oppm,"E")) {
